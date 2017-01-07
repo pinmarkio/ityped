@@ -16,42 +16,13 @@
   }
 }(this, function (global) {
   /**
-   * async foreach
-   * https://www.npmjs.com/package/async-foreach
-   */
-  (function (a) {
-    a.forEach = function (a, b, c) {
-      var d = -1,
-        e = a.length >>> 0;
-      (function f(g) {
-        var h,
-          j = g === !1;
-        do
-          ++d;
-        while (!(d in a) && d !== e);
-        if (j || d === e) {
-          c && c(!j, a);
-          return
-        }
-        g = b.call({
-          async: function () {
-            return h = !0,
-            f
-          }
-        }, a[d], d, a),
-        h || f(g)
-      })()
-    }
-  })(typeof exports == "object" && exports || global);
-
-  /**
    * el is the element
    */
   let el,
     props,
     /**
-    * creating the cursor
-    */
+   * creating the cursor
+   */
     cursor = document.createElement('span');
   cursor
     .classList
@@ -59,9 +30,36 @@
   cursor.textContent = '|';
 
   /**
+   * async foreach
+   * https://www.npmjs.com/package/async-foreach
+   */
+  function forEach(a, b, c) {
+    var d = -1,
+      e = a.length >>> 0;
+    (function f(g) {
+      var h,
+        j = g === !1;
+      do
+        ++d;
+      while (!(d in a) && d !== e);
+      if (j || d === e) {
+        c && c(!j, a);
+        return
+      }
+      g = b.call({
+        async: function () {
+          return h = !0,
+          f
+        }
+      }, a[d], d, a),
+      h || f(g)
+    })()
+  }
+
+  /**
    * @name setProps
-   * @description Set the ityped properties configuration
-   * @param {Object} config The configuration properties
+   * @description Set the ityped propertys configuration
+   * @param {Object} config The configuration propertys
    * @return {Promise}
    */
   function setProps ( config ) {
@@ -81,12 +79,12 @@
   /**
    * @name init
    * @param {String} el The element that will receive the strings
-   * @param {Object} config The initial configuration
+   * @param {Object} confing The initial configuration
    */
   function init(element, config) {
     el = document.querySelector(element);
-    setProps(config).then(function(properties){
-      props = properties;
+    setProps(config).then(function(propertys){
+      props = propertys;
       let words = props.strings,
       len = words.length;
       loopingOnWords(words);
@@ -184,7 +182,7 @@
     })
   }
   /**
-   * @name iterateInsideDecrement
+   * @name interateInsideDecrement
    * @description Iterate on each word, inside the decrement function for decrement the word
    * @param {Element} span The Element that will receive the letters of word
    * @param {String} word The string that is the word
@@ -193,7 +191,7 @@
    * the decrement iteration are finished
    * @return {Promise}
    */
-  function iterateInsideDecrement(span, word, len, resolve) {
+  function interateInsideDecrement(span, word, len, resolve) {
     for (var i = len; i > 0; i--) {
       let iteratedI = i;
       let count = len;
@@ -228,10 +226,10 @@
           span.innerHTML = word;
         }
         else if (props.loop) {
-          iterateInsideDecrement(span, word, len, resolve);
+          interateInsideDecrement(span, word, len, resolve);
         }
       } else if (index + 1 !== lengthWords) {
-        iterateInsideDecrement(span, word, len, resolve);
+        interateInsideDecrement(span, word, len, resolve);
       }
     })
   }
