@@ -18,33 +18,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   }
 })(this, function (global) {
   /**
-   * async foreach
-   * https://www.npmjs.com/package/async-foreach
-   */
-  (function (a) {
-    a.forEach = function (a, b, c) {
-      var d = -1,
-          e = a.length >>> 0;
-      (function f(g) {
-        var h,
-            j = g === !1;
-        do {
-          ++d;
-        } while (!(d in a) && d !== e);
-        if (j || d === e) {
-          c && c(!j, a);
-          return;
-        }
-        g = b.call({
-          async: function async() {
-            return h = !0, f;
-          }
-        }, a[d], d, a), h || f(g);
-      })();
-    };
-  })((typeof exports === "undefined" ? "undefined" : _typeof(exports)) == "object" && exports || global);
-
-  /**
    * el is the element
    */
   var el = void 0,
@@ -56,6 +29,31 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   cursor = document.createElement('span');
   cursor.classList.add('ityped-cursor');
   cursor.textContent = '|';
+
+  /**
+   * async foreach
+   * https://www.npmjs.com/package/async-foreach
+   */
+  function forEach(a, b, c) {
+    var d = -1,
+        e = a.length >>> 0;
+    (function f(g) {
+      var h,
+          j = g === !1;
+      do {
+        ++d;
+      } while (!(d in a) && d !== e);
+      if (j || d === e) {
+        c && c(!j, a);
+        return;
+      }
+      g = b.call({
+        async: function async() {
+          return h = !0, f;
+        }
+      }, a[d], d, a), h || f(g);
+    })();
+  }
 
   /**
    * @name setProps
